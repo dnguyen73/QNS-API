@@ -12,5 +12,25 @@
       "../common/mixins",
       "./mixins"
     ]
+  },
+  "category": {
+    "dataSource": "myds",
+    "public": true
+  },
+  "size": {
+    "dataSource": "myds",
+    "public": true
+  },
+  "picture": {
+    "dataSource": "myds",
+    "public": true
+  },
+  "product": {
+    "dataSource": "myds",
+    "public": true
+  },
+  "attachment": {
+    "dataSource": "storage",
+    "public": true
   }
 }

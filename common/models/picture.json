@@ -1,0 +1,26 @@
+{
+  "name": "picture",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "filename": {
+      "type": "string",
+      "required": true
+    },
+    "size": {
+      "type": "number"
+    },
+    "isForColor": {
+      "type": "boolean",
+      "required": true,
+      "default": false
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

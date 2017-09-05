@@ -1,1 +1,18 @@
-{}
+{
+  "myds": {
+    "host": "localhost",
+    "port": 27017,
+    "url": "",
+    "database": "test",
+    "password": "newwinnew",
+    "name": "myds",
+    "user": "dnguyen73",
+    "connector": "mongodb"
+  },
+  "storage": {
+    "name": "storage",
+    "connector": "loopback-component-storage",
+    "provider": "filesystem",
+    "root": "./files"
+  }
+}
