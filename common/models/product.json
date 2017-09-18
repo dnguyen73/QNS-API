@@ -6,11 +6,11 @@
     "validateUpsert": true
   },
   "properties": {
-    "shortId": {
+    "productCode": {
       "type": "string",
       "required": true
     },
-    "name": {
+    "productName": {
       "type": "string",
       "required": true
     },
@@ -31,7 +31,12 @@
     },
     "availableColors": {
       "type": [
-        "string"
+        "object"
+      ]
+    },
+    "images": {
+      "type": [
+        "object"
       ]
     },
     "stocks": {
@@ -58,7 +63,13 @@
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "category": {
+      "type": "belongsTo",
+      "model": "category",
+      "foreignKey": "categoryId"
+    }
+  },
   "acls": [],
   "methods": {}
 }

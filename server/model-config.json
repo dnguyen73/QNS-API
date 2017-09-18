@@ -14,19 +14,19 @@
     ]
   },
   "category": {
-    "dataSource": "myds",
+    "dataSource": "mydb",
     "public": true
   },
   "size": {
-    "dataSource": "myds",
+    "dataSource": "mydb",
     "public": true
   },
   "picture": {
-    "dataSource": "myds",
+    "dataSource": "mydb",
     "public": true
   },
   "product": {
-    "dataSource": "myds",
+    "dataSource": "mydb",
     "public": true
   },
   "attachment": {

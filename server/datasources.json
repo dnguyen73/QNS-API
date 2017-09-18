@@ -1,11 +1,11 @@
 {
-  "myds": {
+  "mydb": {
     "host": "localhost",
     "port": 27017,
     "url": "",
     "database": "test",
     "password": "newwinnew",
-    "name": "myds",
+    "name": "mydb",
     "user": "dnguyen73",
     "connector": "mongodb"
   },

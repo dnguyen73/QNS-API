@@ -1,6 +1,9 @@
-# QNS-API
+module.exports = function(app) {
+  app.dataSources.mydb.automigrate('Size', function(err) {
+    //if (err) throw err;
+    console.log(err);
 
-Size.create([{
+    app.models.Size.create([{
                 label: '01',
                 code: 'KC'
             }, {
@@ -57,4 +60,10 @@ Size.create([{
             }, {
                 label: 'Free',
                 code: 'AC'
-            }], cb);
+            }], function(err, sizes) {
+      if (err) throw err;
+
+      console.log('Models created: \n', sizes);
+    });
+  });
+};
