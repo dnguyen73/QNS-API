@@ -14,5 +14,21 @@
     "connector": "loopback-component-storage",
     "provider": "filesystem",
     "root": "./files"
+  },
+  "myemail": {
+    "name": "myemail",
+    "connector": "mail",
+    "transports": [
+      {
+        "type": "SMTP",
+        "host": "smtp.gmail.com",
+        "secure": true,
+        "port": 465,
+        "auth": {
+          "user": "duynt2010@gmail.com",
+          "pass": "newwinnew"
+        }
+      }
+    ]
   }
 }

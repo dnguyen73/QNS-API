@@ -1,0 +1,48 @@
+{
+  "name": "order",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "orderCode": {
+      "type": "string",
+      "required": true
+    },
+    "userInfo": {
+      "type": "object",
+      "required": true
+    },
+    "shippingFee": {
+      "type": "number"
+    },
+    "orderAmount": {
+      "type": "number"
+    },
+    "totalAmount": {
+      "type": "number"
+    },
+    "items": {
+      "type": [
+        "object"
+      ],
+      "required": true
+    },
+    "orderDate": {
+      "type": "date",
+      "required": true
+    },
+    "notes": {
+      "type": "string"
+    },
+    "paymentStatus": {
+      "type": "boolean",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

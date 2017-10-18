@@ -32,5 +32,12 @@
   "attachment": {
     "dataSource": "storage",
     "public": true
+  },
+  "order": {
+    "dataSource": "mydb",
+    "public": true
+  },
+  "Email": {
+    "dataSource": "myemail"
   }
 }
