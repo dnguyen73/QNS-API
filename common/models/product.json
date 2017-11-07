@@ -51,7 +51,11 @@
       "type": "boolean",
       "default": false
     },
-    "discount": {
+    "discountPrice": {
+      "type": "number",
+      "default": 0
+    },
+    "discountPercent": {
       "type": "number",
       "default": 0
     },
@@ -70,6 +74,36 @@
       "foreignKey": "categoryId"
     }
   },
-  "acls": [],
+  "acls": [
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "DENY"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": [
+        "find",
+        "findByCode",
+        "findByCategory",
+        "__get__category"
+      ]
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW",
+      "property": [
+        "create",
+        "deleteById",
+        "replaceById"
+      ]
+    }
+  ],
   "methods": {}
 }

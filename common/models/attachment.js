@@ -3,7 +3,7 @@ var app = require('./../../server/server');
 
 module.exports = function (Attachment) {
     var qt = require('quickthumb');
-    
+
     //remote method before hook
     Attachment.beforeRemote("upload", function (ctx, unused, next) {
         console.log("Before upload");
@@ -27,19 +27,21 @@ module.exports = function (Attachment) {
         //     }
         //     else next();
         // });
-        var file = res.result.files.file[0];
-        var file_path = "files/" + file.container + "/" + file.name;
-        var file_thumb_path = "files/" + file.container + "/thumb/" + file.name;
-        console.log(file_path);
-        console.log(file_thumb_path);
-        qt.convert({
-            src: file_path,
-            dst: file_thumb_path,
-            width: 300
-        }, function (err, path) {
-           
-        });
-        
+        var files = res.result.files.file;
+        for (var i = 0; i < files.length; i++) {
+            var f = files[i];
+            var file_path = "files/" + f.container + "/" + f.name;
+            var file_thumb_path = "files/" + f.container + "/thumb/" + f.name;
+            qt.convert({
+                src: file_path,
+                dst: file_thumb_path,
+                width: 400
+            }, function (err, path) {
+
+            });
+        }
+
+
         next();
     });
 

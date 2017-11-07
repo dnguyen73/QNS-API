@@ -13,6 +13,14 @@
       "./mixins"
     ]
   },
+  "User": {
+    "dataSource": "mydb",
+    "public": false
+  },
+  "AccessToken": {
+    "dataSource": "mydb",
+    "public": false
+  },
   "category": {
     "dataSource": "mydb",
     "public": true
@@ -39,5 +47,13 @@
   },
   "Email": {
     "dataSource": "myemail"
+  },
+  "admin": {
+    "dataSource": "mydb",
+    "public": true
+  },
+  "ACL": {
+    "dataSource": "mydb",
+    "public": false
   }
 }

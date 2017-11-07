@@ -5,6 +5,12 @@ var boot = require('loopback-boot');
 
 var app = module.exports = loopback();
 
+app.use(loopback.token({  
+  cookies: ['access_token'],
+  headers: ['access_token', 'X-Access-Token']
+  //additional keys (check docs for more info)
+}));
+
 app.start = function() {
   // start the web server
   return app.listen(function() {
