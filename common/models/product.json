@@ -6,6 +6,10 @@
     "validateUpsert": true
   },
   "properties": {
+    "parentId": {
+      "type": "number",
+      "required": true
+    },
     "productCode": {
       "type": "string",
       "required": true
@@ -72,6 +76,11 @@
       "type": "belongsTo",
       "model": "category",
       "foreignKey": "categoryId"
+    },
+    "reviews": {
+      "type": "hasMany",
+      "model": "review",
+      "foreignKey": "productCode"
     }
   },
   "acls": [
@@ -90,6 +99,8 @@
         "find",
         "findByCode",
         "findByCategory",
+        "findNewest",
+        "findSale",
         "__get__category"
       ]
     },

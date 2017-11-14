@@ -1,0 +1,48 @@
+{
+  "name": "review",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "email": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "comment": {
+      "type": "string",
+      "required": true
+    },
+    "rating": {
+      "type": "number",
+      "required": true
+    },
+    "createdDate": {
+      "type": "date",
+      "required": true
+    },
+    "status": {
+      "type": "boolean",
+      "required": true,
+      "default": false
+    }
+  },
+  "validations": [],
+  "relations": {
+    "product": {
+      "type": "belongsTo",
+      "model": "product",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

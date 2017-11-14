@@ -55,5 +55,9 @@
   "ACL": {
     "dataSource": "mydb",
     "public": false
+  },
+  "review": {
+    "dataSource": "mydb",
+    "public": true
   }
 }
