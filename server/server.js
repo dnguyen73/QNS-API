@@ -2,6 +2,7 @@
 
 var loopback = require('loopback');
 var boot = require('loopback-boot');
+var path = require('path');
 
 var app = module.exports = loopback();
 
@@ -10,6 +11,9 @@ app.use(loopback.token({
   headers: ['access_token', 'X-Access-Token']
   //additional keys (check docs for more info)
 }));
+
+app.set('view engine', 'ejs'); // LoopBack comes with EJS out-of-box
+app.set('views', path.resolve(__dirname, 'views'));
 
 app.start = function() {
   // start the web server

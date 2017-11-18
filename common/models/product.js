@@ -68,15 +68,25 @@ module.exports = function (Product) {
     );
 
     Product.findNewest = function (pId, top, cb) {
-        var response;
-        var SEVEN_DAYS = 7 * 24 * 60 * 60 * 1000;  // Month in milliseconds
-        var param = {
-            limit: top,
-            where: {
-                parentId: pId,
-                createdDate: {gt: Date.now() - SEVEN_DAYS}
-            }
-        };
+        var response, param;
+        var SEVEN_DAYS = 21 * 24 * 60 * 60 * 1000;  // Month in milliseconds
+        if (top) {
+            param = {
+                limit: top,
+                where: {
+                    parentId: pId,
+                    createdDate: { gt: Date.now() - SEVEN_DAYS }
+                }
+            };
+        } else {
+            param = {
+                where: {
+                    parentId: pId,
+                    createdDate: { gt: Date.now() - SEVEN_DAYS }
+                }
+            };
+        }
+
         Product.find(param, function (err, result) {
             if (err) {
                 cb(err);
@@ -95,6 +105,41 @@ module.exports = function (Product) {
             accepts: [
                 { arg: 'pid', type: 'number', required: true, description: "1" },
                 { arg: 'top', type: 'number', required: true, description: "5" }
+            ],
+            returns: {
+                arg: 'result',
+                type: 'Product',
+                root: true
+            },
+        }
+    );
+
+    Product.findNewestByDays = function (days, cb) {
+        var response, param;
+        var SELECT_DAYS = days * 24 * 60 * 60 * 1000;  // Month in milliseconds
+        var param = {
+            where: {
+                createdDate: { gt: Date.now() - SELECT_DAYS }
+            }
+        };
+
+        Product.find(param, function (err, result) {
+            if (err) {
+                cb(err);
+            }
+            else {
+                cb(null, result, 200, "success")
+            } // endIf
+        }); // endFunc
+    };
+    Product.remoteMethod(
+        'findNewestByDays', {
+            http: {
+                path: '/findNewestByDays',
+                verb: 'get'
+            },
+            accepts: [
+                { arg: 'days', type: 'number', required: true, description: "7" },
             ],
             returns: {
                 arg: 'result',
@@ -140,5 +185,125 @@ module.exports = function (Product) {
             },
         }
     );
-    
+
+    //Find Sales products by parentid/top
+    Product.findByPriceRange = function (min, max, cb) {
+        var response;
+        var param = {
+            where: {
+                and: [
+                    { price: { gte: min } },
+                    { price: { lte: max } }
+                ]
+            },
+        };
+        Product.find(param, function (err, result) {
+            if (err) {
+                cb(err);
+            }
+            else {
+                cb(null, result, 200, "success")
+            } // endIf
+        }); // endFunc
+    };
+    Product.remoteMethod(
+        'findByPriceRange', {
+            http: {
+                path: '/findByPriceRange',
+                verb: 'get'
+            },
+            accepts: [
+                { arg: 'min', type: 'number', required: true, description: "100000" },
+                { arg: 'max', type: 'number', required: true, description: "500000" }
+            ],
+            returns: {
+                arg: 'result',
+                type: 'Product',
+                root: true
+            },
+        }
+    );
+
+    //Find Sales products by parentid/top
+    //pid = parent id
+    Product.findByPriceRangeInGroup = function (pid, min, max, cb) {
+        var response;
+        var param = {
+            where: {
+                and: [
+                    { parentId: pid },
+                    { price: { gte: min } },
+                    { price: { lte: max } }
+                ]
+            },
+        };
+        Product.find(param, function (err, result) {
+            if (err) {
+                cb(err);
+            }
+            else {
+                cb(null, result, 200, "success")
+            } // endIf
+        }); // endFunc
+    };
+    Product.remoteMethod(
+        'findByPriceRangeInGroup', {
+            http: {
+                path: '/findByPriceRangeInGroup',
+                verb: 'get'
+            },
+            accepts: [
+                { arg: 'pid', type: 'number', required: true, description: "1" },
+                { arg: 'min', type: 'number', required: true, description: "100000" },
+                { arg: 'max', type: 'number', required: true, description: "500000" }
+            ],
+            returns: {
+                arg: 'result',
+                type: 'Product',
+                root: true
+            },
+        }
+    );
+
+    //Find Sales products by parentid/top
+    //cid = category id
+    Product.findByPriceRangeInCategory = function (cid, min, max, cb) {
+        var response;
+        var param = {
+            where: {
+                and: [
+                    { categoryId: cid },
+                    { price: { gte: min } },
+                    { price: { lte: max } }
+                ]
+            },
+        };
+        Product.find(param, function (err, result) {
+            if (err) {
+                cb(err);
+            }
+            else {
+                cb(null, result, 200, "success")
+            } // endIf
+        }); // endFunc
+    };
+    Product.remoteMethod(
+        'findByPriceRangeInCategory', {
+            http: {
+                path: '/findByPriceRangeInCategory',
+                verb: 'get'
+            },
+            accepts: [
+                { arg: 'cid', type: 'string', required: true, description: "1hqwiuh1jad01jsao" },
+                { arg: 'min', type: 'number', required: true, description: "100000" },
+                { arg: 'max', type: 'number', required: true, description: "500000" }
+            ],
+            returns: {
+                arg: 'result',
+                type: 'Product',
+                root: true
+            },
+        }
+    );
+
 };

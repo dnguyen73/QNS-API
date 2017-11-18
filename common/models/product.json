@@ -23,6 +23,11 @@
       "required": true,
       "default": "To be defined"
     },
+    "detailInfo": {
+      "type": "string",
+      "required": false,
+      "default": "..."
+    },
     "price": {
       "type": "number",
       "required": true,
@@ -100,7 +105,11 @@
         "findByCode",
         "findByCategory",
         "findNewest",
+        "findNewestByDays",
         "findSale",
+        "findByPriceRange",
+        "findByPriceRangeInGroup",
+        "findByPriceRangeInCategory",
         "__get__category"
       ]
     },

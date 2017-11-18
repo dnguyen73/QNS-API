@@ -1,19 +1,60 @@
 'use strict';
+var loopback = require('loopback');
+var path = require('path');
+var dateFormat = require('dateformat');
+var numFormat = require('format-number');
 
 module.exports = function (Order) {
     //remote method before hook
     Order.observe('after save', function (ctx, next) {
-        console.log('save0');
+        // create a custom object your want to pass to the email template. You can create as many key-value pairs as you want
+        var customerMailData = {
+            userInfo: ctx.instance.userInfo,
+            order_code: ctx.instance.orderCode,
+            order_date: dateFormat(ctx.instance.orderDate, "dd-mm-yyyy h:MM:ss"),
+            orderAmount: numFormat({ integerSeparator: '.', suffix: ' VND' })(ctx.instance.orderAmount),
+            shippingFee: numFormat({ integerSeparator: '.', suffix: ' VND' })(ctx.instance.shippingFee),
+            totalAmount: numFormat({ integerSeparator: '.', suffix: ' VND' })(ctx.instance.totalAmount),
+            items: []
+        };
+        for (var i = 0, items = ctx.instance.items; i < items.length; i++) {
+            customerMailData.items.push({
+                imgPath: items[i].colorPath,
+                productName: items[i].product.productName,
+                productCode: items[i].product.productCode,
+                unitPrice: numFormat({ integerSeparator: '.', suffix: ' VND' })(items[i].unitPrice),
+                quantity: items[i].quantity,
+                amount: numFormat({ integerSeparator: '.', suffix: ' VND' })(items[i].unitPrice * items[i].quantity)
+            })
+        }
+
+        // prepare a loopback template renderer
+        var renderer = loopback.template(path.resolve(__dirname, '../../server/views/customer-order-confirmation.ejs'));
+        var html_body = renderer(customerMailData);
+
         Order.app.models.Email.send({
             to: 'duynt2010@gmail.com',
             from: 'duynt2010@gmail.com',
-            subject: 'my subject',
+            subject: 'Shop Quỳnh Như đã nhận đơn hàng #' + ctx.instance.orderCode,
             text: 'my text',
-            html: 'my <em>html</em>'
+            html: html_body
         }, function (err, mail) {
-            console.log('email sent!');
+            console.log('email sent to customer!');
+            //Send mail to admin
+            var rendererAdmin = loopback.template(path.resolve(__dirname, '../../server/views/admin-order-coming.ejs'));
+            var html_body_admin = rendererAdmin(customerMailData);
+
+            Order.app.models.Email.send({
+                to: 'duynt2010@gmail.com',
+                from: 'duynt2010@gmail.com',
+                subject: '[NEW ORDER] Shop Quỳnh Như đã nhận đơn hàng #' + ctx.instance.orderCode,
+                html: html_body_admin
+            }, function (err, mail) {
+                console.log('email sent to admin!');
+                //Send mail to admin
+
+            });
         });
-        console.log('save');
         next();
     });
 

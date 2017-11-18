@@ -1,0 +1,113 @@
+
+<html>
+ <head>
+    <style>
+  .user-info h1, .order-info h1{
+    font-size: 16px;
+    text-decoration: underline;
+}    
+    
+.order-info{
+    margin-top: 20px;
+}
+
+.item-info{
+    padding: 5px;
+}
+
+.item-info p.name{
+    font-weight: 700;
+    font-size: 14px;
+}
+.item-info p.code{
+    font-weight: 500;
+    font-size: 12px;
+    font-style: italic;
+}
+.price{
+    text-align: right;
+}
+.center{
+    text-align: center;
+}
+table.list {
+  padding: 8px;
+}
+table.total {
+  padding: 14px;
+}
+table td{
+  padding: 0;
+}
+table.list th, table.list td{
+  border-bottom: 1px solid #ddd;
+}
+
+table.total td{
+  text-align: right;
+  font-weight: 700;
+}
+</style>
+ </head>
+ <body >
+    <h1 style="font-size: 18px;">Mail thông báo đến ADMIN Shop Quynh Nhu </h1>
+<p>
+    Shop QuynhNhu vừa nhận được đơn hàng # <b><%=order_code %></b> vào ngày <b><%= order_date %></b>. 
+</p>
+<p>
+Sau đây là thông tin chi tiết về đơn hàng:
+</p>
+
+<div class="user-info">
+  <h1>Thông tin khách hàng</h1>
+  <span><%=userInfo.fullname %></span><br>
+  <span><%=userInfo.phone %></span><br>
+  <span><%=userInfo.email %></span><br>
+  <span><%=userInfo.address %></span><br>
+  <span><%=userInfo.province %></span><br>
+</div>
+
+<div class="order-info">
+  <h1>Thông tin đơn hàng</h1>
+
+  <table class="list">
+    <tr>
+      <th width="100px">Sản phẩm</th>
+      <th width="300px"></th>
+      <th width="100px" class="center">Số lượng</th>
+      <th width="100px" class="price">Thanh toán</th>
+    </tr>
+    <% for(var i=0; i < items.length; i++) { %>
+    <tr>
+      <td><img width="100px" src='http://localhost:3000/files/1/thumb/<%=items[i].imgPath %>' /></td>
+      <td>
+        <div class="item-info">
+          <p class="name"><%=items[i].productName %></p>
+          <p class="code"><%=items[i].productCode %></p>
+          <p><%=items[i].unitPrice %></p>
+        </div>
+      </td>
+      <td class="center"><p>X <%=items[i].quantity %></p></td>
+      <td class="price"><p><%=items[i].amount %></p></td>
+    </tr>
+    <% } %>
+  </table>
+  <table class="total">
+    <tr>
+      <td width="500px">Giá mua hàng</th>
+      <td width="100px"><%=orderAmount %></th>
+    </tr>
+    <tr>
+      <td width="500px">Phí ship hàng</th>
+      <td width="100px"><%=shippingFee %></th>
+    </tr>
+    <tr>
+      <td width="500px">Tổng thanh toán</th>
+      <td width="100px"><%=totalAmount %></th>
+    </tr>
+  </table>
+
+</div>
+<p style="font-weight:bold; font-size: 16px;">Ban quản trị ShopQuynhNhu</p>
+ </body>
+</html>
