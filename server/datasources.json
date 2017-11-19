@@ -7,7 +7,8 @@
     "password": "newwinnew",
     "name": "mydb",
     "user": "dnguyen73",
-    "connector": "mongodb"
+    "connector": "mongodb",
+    "authSource": "admin"
   },
   "storage": {
     "name": "storage",
