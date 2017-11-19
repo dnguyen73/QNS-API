@@ -187,6 +187,39 @@ module.exports = function (Product) {
     );
 
     //Find Sales products by parentid/top
+    Product.findAllSale = function (cb) {
+        var response;
+        var param = {
+            where: {
+                isOnSale: true
+            }
+        };
+        Product.find(param, function (err, result) {
+            if (err) {
+                cb(err);
+            }
+            else {
+                cb(null, result, 200, "success")
+            } // endIf
+        }); // endFunc
+    };
+    Product.remoteMethod(
+        'findAllSale', {
+            http: {
+                path: '/findAllSale',
+                verb: 'get'
+            },
+            accepts: [
+            ],
+            returns: {
+                arg: 'result',
+                type: 'Product',
+                root: true
+            },
+        }
+    );
+
+    //Find Sales products by parentid/top
     Product.findByPriceRange = function (min, max, cb) {
         var response;
         var param = {
