@@ -3,11 +3,9 @@
 var loopback = require('loopback');
 var boot = require('loopback-boot');
 var path = require('path');
-var cors = require('cors');
 
 var app = module.exports = loopback();
 
-app.use(cors);
 app.use(loopback.token({  
   cookies: ['access_token'],
   headers: ['access_token', 'X-Access-Token']
