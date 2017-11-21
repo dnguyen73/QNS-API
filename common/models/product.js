@@ -67,25 +67,15 @@ module.exports = function (Product) {
         }
     );
 
-    Product.findNewest = function (pId, top, cb) {
+    Product.findNewest = function (pId, days, cb) {
         var response, param;
-        var SEVEN_DAYS = 21 * 24 * 60 * 60 * 1000;  // Month in milliseconds
-        if (top) {
-            param = {
-                limit: top,
-                where: {
-                    parentId: pId,
-                    createdDate: { gt: Date.now() - SEVEN_DAYS }
-                }
-            };
-        } else {
-            param = {
-                where: {
-                    parentId: pId,
-                    createdDate: { gt: Date.now() - SEVEN_DAYS }
-                }
-            };
-        }
+        var SELECT_DAYS = days * 24 * 60 * 60 * 1000;  // Month in milliseconds
+        param = {
+            where: {
+                parentId: pId,
+                createdDate: { gt: Date.now() - SELECT_DAYS }
+            }
+        };
 
         Product.find(param, function (err, result) {
             if (err) {
@@ -104,7 +94,7 @@ module.exports = function (Product) {
             },
             accepts: [
                 { arg: 'pid', type: 'number', required: true, description: "1" },
-                { arg: 'top', type: 'number', required: true, description: "5" }
+                { arg: 'days', type: 'number', required: true, description: "5" }
             ],
             returns: {
                 arg: 'result',
@@ -151,14 +141,24 @@ module.exports = function (Product) {
 
     //Find Sales products by parentid/top
     Product.findSale = function (pId, top, cb) {
-        var response;
-        var param = {
-            limit: top,
-            where: {
-                parentId: pId,
-                isOnSale: true
-            }
-        };
+        var response, param;
+        if (top) {
+            param = {
+                limit: top,
+                where: {
+                    parentId: pId,
+                    isOnSale: true
+                }
+            };
+        } else {
+            param = {
+                where: {
+                    parentId: pId,
+                    isOnSale: true
+                }
+            };
+        }
+
         Product.find(param, function (err, result) {
             if (err) {
                 cb(err);
@@ -176,7 +176,7 @@ module.exports = function (Product) {
             },
             accepts: [
                 { arg: 'pid', type: 'number', required: true, description: "1" },
-                { arg: 'top', type: 'number', required: true, description: "5" }
+                { arg: 'top', type: 'number', required: false, description: "5" }
             ],
             returns: {
                 arg: 'result',

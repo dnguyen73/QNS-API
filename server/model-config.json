@@ -59,5 +59,9 @@
   "review": {
     "dataSource": "mydb",
     "public": true
+  },
+  "province": {
+    "dataSource": "mydb",
+    "public": true
   }
 }
