@@ -32,12 +32,13 @@ module.exports = function (Attachment) {
             var f = files[i];
             var file_path = "files/" + f.container + "/" + f.name;
             var file_thumb_path = "files/" + f.container + "/thumb/" + f.name;
+            console.log('THUMB -----' + file_thumb_path);
             qt.convert({
                 src: file_path,
                 dst: file_thumb_path,
                 width: 400
             }, function (err, path) {
-
+                console.log('ERROR ------' + err + path);
             });
         }
 
