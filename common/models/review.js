@@ -13,6 +13,8 @@ module.exports = function (Review) {
         var renderer = loopback.template(path.resolve(__dirname, '../../server/views/admin-review-coming.ejs'));
         var html_body = renderer(message);
 
+        console.log(html_body);
+
         Review.app.models.Email.send({
             to: 'duynt2010@gmail.com',
             from: 'duynt2010@gmail.com',
@@ -20,6 +22,8 @@ module.exports = function (Review) {
             html: html_body
         }, function (err, mail) {
             console.log('email sent to admin!');
+            console.log(err);
+            console.log(mail);
             //Send mail to admin
 
         });
