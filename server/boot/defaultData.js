@@ -8,7 +8,7 @@ module.exports = function (app) {
         Admin.create([{
             username: 'admin',
             email: 'duynt2010@gmail.com',
-            password: 'admin',
+            password: 'gauchuotga',
         }], function (err, users) {
             if (err) throw err;
             console.log('Admin Users created: \n', users);
