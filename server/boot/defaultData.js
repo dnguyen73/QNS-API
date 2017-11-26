@@ -12,6 +12,7 @@ module.exports = function (app) {
         }], function (err, users) {
             if (err) throw err;
             console.log('Admin Users created: \n', users);
+            console.log(app.get('host'));
             // Role.create({
             //     name: 'admin'
             // }, function (err, role) {

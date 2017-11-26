@@ -108,6 +108,7 @@
         "findNewestByDays",
         "findSale",
         "findAllSale",
+        "findRelation",
         "findByPriceRange",
         "findByPriceRangeInGroup",
         "findByPriceRangeInCategory",

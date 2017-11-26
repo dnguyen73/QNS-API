@@ -9,6 +9,7 @@ module.exports = function (Order) {
     Order.observe('after save', function (ctx, next) {
         // create a custom object your want to pass to the email template. You can create as many key-value pairs as you want
         var customerMailData = {
+            hostname: loopback.get('host'),
             userInfo: ctx.instance.userInfo,
             order_code: ctx.instance.orderCode,
             order_date: dateFormat(ctx.instance.orderDate, "dd-mm-yyyy h:MM:ss"),

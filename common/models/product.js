@@ -67,6 +67,51 @@ module.exports = function (Product) {
         }
     );
 
+    Product.findRelation = function (productCode, top, cb) {
+        Product.findOne({
+            where: { productCode: productCode }
+        }, function (err, product) {
+            if (err) {
+                cb(err);
+            }
+            else {
+                var param = {
+                    limit: top,
+                    where: {
+                        categoryId: product.categoryId,
+                        productCode: { "neq": product.productCode }
+                    }
+                };
+
+                Product.find(param, function (err, result) {
+                    if (err) {
+                        cb(err);
+                    }
+                    else {
+                        cb(null, result, 200, "success")
+                    } // endIf
+                }); // endFunc
+            } // endIf
+        });
+    };
+    Product.remoteMethod(
+        'findRelation', {
+            http: {
+                path: '/findRelation',
+                verb: 'get'
+            },
+            accepts: [
+                { arg: 'code', type: 'string', required: true, description: "CXFS6S" },
+                { arg: 'top', type: 'number', required: false, description: "5" }
+            ],
+            returns: {
+                arg: 'result',
+                type: 'Product',
+                root: true
+            },
+        }
+    );
+
     Product.findNewest = function (pId, days, top, cb) {
         var response, param;
         var SELECT_DAYS = days * 24 * 60 * 60 * 1000;  // Month in milliseconds
