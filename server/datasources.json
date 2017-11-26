@@ -6,7 +6,7 @@
     "database": "test",
     "password": "gauchuotga",
     "name": "mydb",
-    "user": "dnguyen73",
+    "user": "admin",
     "connector": "mongodb",
     "authSource": "admin"
   },
