@@ -34,13 +34,25 @@ module.exports = function (Product) {
         }
     );
 
-    Product.findByCategory = function (categoryId, cb) {
-        var response;
-        var param = {
-            where: {
-                categoryId: categoryId
-            }
-        };
+    Product.findByCategory = function (categoryId, top, cb) {
+        var response, param;
+        if (top) {
+            param = {
+                limit: top,
+                where: {
+                    categoryId: categoryId
+                },
+                order: 'createdDate DESC'
+            };
+        } else {
+            param = {
+                where: {
+                    categoryId: categoryId
+                },
+                order: 'createdDate DESC'
+            };
+        }
+        
         Product.find(param, function (err, result) {
             if (err) {
                 cb(err);
@@ -57,7 +69,54 @@ module.exports = function (Product) {
                 verb: 'get'
             },
             accepts: [
-                { arg: 'categoryId', type: 'string', required: true, description: "59d284dcd228f70436c2eb51" }
+                { arg: 'categoryId', type: 'string', required: true, description: "59d284dcd228f70436c2eb51" },
+                { arg: 'top', type: 'number', required: false, description: "5" }
+            ],
+            returns: {
+                arg: 'result',
+                type: 'Array',
+                root: true
+            },
+        }
+    );
+
+    Product.findByParentId = function (parentId, top, cb) {
+        var response, param;
+        if (top) {
+            param = {
+                limit: top,
+                where: {
+                    parentId: parentId
+                },
+                order: 'createdDate DESC'
+            };
+        } else {
+            param = {
+                where: {
+                    parentId: parentId
+                },
+                order: 'createdDate DESC'
+            };
+        }
+        
+        Product.find(param, function (err, result) {
+            if (err) {
+                cb(err);
+            }
+            else {
+                cb(null, result, 200, "success")
+            } // endIf
+        }); // endFunc
+    };
+    Product.remoteMethod(
+        'findByParentId', {
+            http: {
+                path: '/findByParentId',
+                verb: 'get'
+            },
+            accepts: [
+                { arg: 'parentId', type: 'string', required: true, description: "1" },
+                { arg: 'top', type: 'number', required: false, description: "5" }
             ],
             returns: {
                 arg: 'result',
@@ -80,7 +139,8 @@ module.exports = function (Product) {
                     where: {
                         categoryId: product.categoryId,
                         productCode: { "neq": product.productCode }
-                    }
+                    },
+                    order: 'createdDate DESC'
                 };
 
                 Product.find(param, function (err, result) {
@@ -121,7 +181,8 @@ module.exports = function (Product) {
                 where: {
                     parentId: pId,
                     createdDate: { gt: Date.now() - SELECT_DAYS }
-                }
+                },
+                order: 'createdDate DESC'
             };
         } else {
             param = {
@@ -167,7 +228,8 @@ module.exports = function (Product) {
         var param = {
             where: {
                 createdDate: { gt: Date.now() - SELECT_DAYS }
-            }
+            },
+            order: 'createdDate DESC'
         };
 
         Product.find(param, function (err, result) {
@@ -205,7 +267,8 @@ module.exports = function (Product) {
                 where: {
                     parentId: pId,
                     isOnSale: true
-                }
+                },
+                order: 'createdDate DESC'
             };
         } else {
             param = {
@@ -249,7 +312,8 @@ module.exports = function (Product) {
         var param = {
             where: {
                 isOnSale: true
-            }
+            },
+            order: 'createdDate DESC'
         };
         Product.find(param, function (err, result) {
             if (err) {
@@ -286,6 +350,7 @@ module.exports = function (Product) {
                     { price: { lte: max } }
                 ]
             },
+            order: 'createdDate DESC'
         };
         Product.find(param, function (err, result) {
             if (err) {

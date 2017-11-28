@@ -104,6 +104,7 @@
         "find",
         "findByCode",
         "findByCategory",
+        "findByParentId",
         "findNewest",
         "findNewestByDays",
         "findSale",
