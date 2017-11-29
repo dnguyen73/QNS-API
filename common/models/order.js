@@ -21,6 +21,7 @@ module.exports = function (Order) {
         for (var i = 0, items = ctx.instance.items; i < items.length; i++) {
             customerMailData.items.push({
                 imgPath: items[i].colorPath,
+                parentFolder: items[i].product.parentId,
                 productName: items[i].product.productName,
                 productCode: items[i].product.productCode,
                 unitPrice: numFormat({ integerSeparator: '.', suffix: ' VND' })(items[i].unitPrice),

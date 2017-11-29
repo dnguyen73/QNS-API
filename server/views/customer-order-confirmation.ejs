@@ -79,7 +79,7 @@ Sau đây là thông tin chi tiết về đơn hàng:
     </tr>
     <% for(var i=0; i < items.length; i++) { %>
     <tr>
-      <td><img width="100px" src='http://<%=hostname %>:3000/files/1/thumb/<%=items[i].imgPath %>' /></td>
+      <td><img width="100px" src='http://<%=hostname %>:3000/files/<%=items[i].parentFolder %>/thumb/<%=items[i].imgPath %>' /></td>
       <td>
         <div class="item-info">
           <p class="name"><%=items[i].productName %></p>
