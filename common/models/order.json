@@ -68,7 +68,8 @@
         "changeStatus",
         "find",
         "findById",
-        "findByCode"
+        "findByCode",
+        "deleteById"
       ]
     }
   ],

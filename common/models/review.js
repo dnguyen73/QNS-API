@@ -8,7 +8,8 @@ module.exports = function (Review) {
         var message= {
             productCode: ctx.instance.productCode,
             comment: ctx.instance.comment,
-            rating: ctx.instance.rating
+            rating: ctx.instance.rating,
+            email: ctx.instance.email
         }
         var renderer = loopback.template(path.resolve(__dirname, '../../server/views/admin-review-coming.ejs'));
         var html_body = renderer(message);
@@ -16,16 +17,12 @@ module.exports = function (Review) {
         console.log(html_body);
 
         Review.app.models.Email.send({
-            to: 'duynt2010@gmail.com',
-            from: 'duynt2010@gmail.com',
+            to: 'fashionquynhnhu@gmail.com; duynt2010@gmail.com',
+            from: message.email,
             subject: '[NEW REVIEW] Shop Quỳnh Như đã nhận một đánh giá cho sp #' + ctx.instance.productCode,
             html: html_body
         }, function (err, mail) {
             console.log('email sent to admin!');
-            console.log(err);
-            console.log(mail);
-            //Send mail to admin
-
         });
         next();
     });

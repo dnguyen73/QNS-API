@@ -9,7 +9,7 @@ module.exports = function (Order) {
     Order.observe('after save', function (ctx, next) {
         // create a custom object your want to pass to the email template. You can create as many key-value pairs as you want
         var customerMailData = {
-            hostname: loopback.get('host'),
+            hostname: Order.app.get('host'),
             userInfo: ctx.instance.userInfo,
             order_code: ctx.instance.orderCode,
             order_date: dateFormat(ctx.instance.orderDate, "dd-mm-yyyy h:MM:ss"),
@@ -34,8 +34,8 @@ module.exports = function (Order) {
         var html_body = renderer(customerMailData);
 
         Order.app.models.Email.send({
-            to: 'duynt2010@gmail.com',
-            from: 'duynt2010@gmail.com',
+            to: customerMailData.userInfo.email,
+            from: 'Fashion Quỳnh Như <fashionquynhnhu@gmail.com>',
             subject: 'Shop Quỳnh Như đã nhận đơn hàng #' + ctx.instance.orderCode,
             text: 'my text',
             html: html_body
@@ -46,8 +46,8 @@ module.exports = function (Order) {
             var html_body_admin = rendererAdmin(customerMailData);
 
             Order.app.models.Email.send({
-                to: 'duynt2010@gmail.com',
-                from: 'duynt2010@gmail.com',
+                to: 'fashionquynhnhu@gmail.com; duynt2010@gmail.com',
+                from: 'Fashion Quỳnh Như <fashionquynhnhu@gmail.com>',
                 subject: '[NEW ORDER] Shop Quỳnh Như đã nhận đơn hàng #' + ctx.instance.orderCode,
                 html: html_body_admin
             }, function (err, mail) {
