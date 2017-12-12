@@ -79,7 +79,11 @@ Sau đây là thông tin chi tiết về đơn hàng:
     </tr>
     <% for(var i=0; i < items.length; i++) { %>
     <tr>
-      <td><img width="100px" src='http://<%=hostname %>:3000/files/<%=items[i].parentFolder %>/thumb/<%=items[i].imgPath %>' /></td>
+      <td>
+        <a href='http://<%=hostname %>/product/<%=items[i].productCode %>'>
+          <img width="100px" src='http://<%=hostname %>:3000/files/<%=items[i].parentFolder %>/thumb/<%=items[i].imgPath %>' />
+        </a>
+      </td>
       <td>
         <div class="item-info">
           <p class="name"><%=items[i].productName %></p>
@@ -99,11 +103,11 @@ Sau đây là thông tin chi tiết về đơn hàng:
     </tr>
     <tr>
       <td width="500px">Phí ship hàng</th>
-      <td width="100px"><%=shippingFee %></th>
+      <td width="100px">(chưa bao gồm)</th>
     </tr>
     <tr>
       <td width="500px">Tổng thanh toán</th>
-      <td width="100px"><%=totalAmount %></th>
+      <td width="100px"><%=orderAmount %></th>
     </tr>
   </table>
 
