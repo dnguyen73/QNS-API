@@ -63,5 +63,9 @@
   "province": {
     "dataSource": "mydb",
     "public": true
+  },
+  "policy": {
+    "dataSource": "mydb",
+    "public": true
   }
 }
