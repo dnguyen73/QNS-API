@@ -4,10 +4,11 @@
     "port": 27017,
     "url": "",
     "database": "test",
-    "password": "newwinnew",
+    "password": "gauchuotga",
     "name": "mydb",
-    "user": "dnguyen73",
-    "connector": "mongodb"
+    "user": "admin",
+    "connector": "mongodb",
+    "authSource": "admin"
   },
   "storage": {
     "name": "storage",
@@ -25,8 +26,8 @@
         "secure": true,
         "port": 465,
         "auth": {
-          "user": "duynt2010@gmail.com",
-          "pass": "newwinnew"
+          "user": "fashionquynhnhu@gmail.com",
+          "pass": "gauchuotga"
         }
       }
     ]
