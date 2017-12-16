@@ -30,30 +30,30 @@ module.exports = function (app) {
     });
 
     //});
-    app.dataSources.mydb.automigrate('Policy', function (err) {
-        //if (err) throw err;
-        console.log(err);
-        app.models.Policy.destroyAll({}, function (err, cb) { });
-        app.models.Policy.create([
-            {
-            type: 'placeholder',
-            content: 'placeholder'
-        },
-        {
-            type: 'refund',
-            content: '<p>- Thời hạn đổi c&aacute;c mặt h&agrave;ng đ&atilde; mua tại shopquynhnhu.com&nbsp;l&agrave; 2&nbsp;ng&agrave;y kể từ ng&agrave;y mua. H&agrave;ng được đổi phải đảm bảo c&ograve;n mới 100% chưa được sử dụng v&agrave; c&ograve;n nguy&ecirc;n nh&atilde;n m&aacute;c. Shopquynhnhu.com&nbsp;kh&ocirc;ng đổi h&agrave;ng đ&atilde; sử dụng.</p><p>- Tổng gi&aacute; trị c&aacute;c mặt h&agrave;ng muốn đổi phải c&oacute; gi&aacute; trị tương đương với mặt h&agrave;ng trả lại. Shopquynhnhu.com kh&ocirc;ng ho&agrave;n lại tiền thừa trong trường hợp sản phẩm mới c&oacute; gi&aacute; trị thấp hơn sản phẩm đ&atilde; mua.</p><p>- Nếu sản phẩm c&oacute; lỗi, qu&yacute; kh&aacute;ch cần th&ocirc;ng b&aacute;o cho shop được biết qua số hotline&nbsp;trong v&ograve;ng 2&nbsp;ng&agrave;y kể từ ng&agrave;y mua. Shopquynhnhu.com cam kết sẽ nhanh ch&oacute;ng thay thế sản phẩm ngay tức th&igrave; cho kh&aacute;ch h&agrave;ng. Nếu như sản phẩm đ&oacute; kh&ocirc;ng c&ograve;n h&agrave;ng Shopquynhnhu.com sẽ ho&agrave;n lại tiền m&agrave; kh&ocirc;ng c&oacute; đ&ograve;i hỏi n&agrave;o trong trường hợp n&agrave;y.</p><p>- Ph&iacute; chuyển ph&aacute;t sẽ được ho&agrave;n trả trong trường hợp h&agrave;ng h&oacute;a b&aacute;n ra kh&ocirc;ng đ&uacute;ng, lỗi hoặc hỏng h&oacute;c.</p>'
-        }, 
-        {
-            type: 'shipping',
-            content: '<p>1. TP HCM:</p><p>-&nbsp;Quận 1, 2, 3, 4, 5, 6, 7, 8, 10, 11, T&acirc;n B&igrave;nh, T&acirc;n Ph&uacute;, Ph&uacute; Nhuận, B&igrave;nh Thạnh, G&ograve; Vấp: 20.000đ (thanh to&aacute;n khi nhận h&agrave;ng, giao trong 1 ng&agrave;y).</p><p>- Quận 9, 12, Thủ Đức, B&igrave;nh T&acirc;n: 25.000đ (thanh to&aacute;n khi nhận h&agrave;ng, giao trong 1 ng&agrave;y, đ&acirc;y l&agrave; ph&iacute; ship mặc định), 20.000đ (nếu bạn chuyển khoản trước, shop gửi bằng đường bưu điện trong 3-5 ng&agrave;y, vui l&ograve;ng b&aacute;o trước cho shop).</p><p>- Quận H&oacute;c M&ocirc;n, B&igrave;nh Ch&aacute;nh, Nh&agrave; B&egrave;, Huyện Củ Chi, Huyện Cần Giờ: 35.000đ (thanh to&aacute;n khi nhận h&agrave;ng, giao trong 1-2 ng&agrave;y, đ&acirc;y l&agrave; ph&iacute; ship mặc định), 20.000đ&nbsp; (bạn chuyển khoản trước, shop gửi bằng đường bưu điện trong 3-5 ng&agrave;y,vui l&ograve;ng b&aacute;o trước cho shop).</p><p>&nbsp;</p><p>2. C&aacute;c tỉnh th&agrave;nh kh&aacute;c:</p><p>a. Nếu bạn chuyển khoản trước:&nbsp;</p><p>- Khối lượng &lt;0.5kg: 25.000đ.</p><p>- Khối lượng lớn hơn, k&iacute;ch thước lớn:&nbsp;Th&ecirc;m phụ ph&iacute; 5.000đ.</p><p>b. Nếu bạn muốn thanh to&aacute;n khi nhận h&agrave;ng (COD): vui l&ograve;ng cộng th&ecirc;m 15.000đ - 20.000đ ph&iacute; COD.</p><p><strong>(free ship to&agrave;n quốc cho đơn h&agrave;ng tr&ecirc;n 1.200.000đ)</strong></p>'
-        }
-        ], function (err, policies) {
-            if (err) throw err;
+    // app.dataSources.mydb.automigrate('Policy', function (err) {
+    //     //if (err) throw err;
+    //     console.log(err);
+    //     app.models.Policy.destroyAll({}, function (err, cb) { });
+    //     app.models.Policy.create([
+    //         {
+    //         type: 'placeholder',
+    //         content: 'placeholder'
+    //     },
+    //     {
+    //         type: 'refund',
+    //         content: '<p>- Thời hạn đổi c&aacute;c mặt h&agrave;ng đ&atilde; mua tại shopquynhnhu.com&nbsp;l&agrave; 2&nbsp;ng&agrave;y kể từ ng&agrave;y mua. H&agrave;ng được đổi phải đảm bảo c&ograve;n mới 100% chưa được sử dụng v&agrave; c&ograve;n nguy&ecirc;n nh&atilde;n m&aacute;c. Shopquynhnhu.com&nbsp;kh&ocirc;ng đổi h&agrave;ng đ&atilde; sử dụng.</p><p>- Tổng gi&aacute; trị c&aacute;c mặt h&agrave;ng muốn đổi phải c&oacute; gi&aacute; trị tương đương với mặt h&agrave;ng trả lại. Shopquynhnhu.com kh&ocirc;ng ho&agrave;n lại tiền thừa trong trường hợp sản phẩm mới c&oacute; gi&aacute; trị thấp hơn sản phẩm đ&atilde; mua.</p><p>- Nếu sản phẩm c&oacute; lỗi, qu&yacute; kh&aacute;ch cần th&ocirc;ng b&aacute;o cho shop được biết qua số hotline&nbsp;trong v&ograve;ng 2&nbsp;ng&agrave;y kể từ ng&agrave;y mua. Shopquynhnhu.com cam kết sẽ nhanh ch&oacute;ng thay thế sản phẩm ngay tức th&igrave; cho kh&aacute;ch h&agrave;ng. Nếu như sản phẩm đ&oacute; kh&ocirc;ng c&ograve;n h&agrave;ng Shopquynhnhu.com sẽ ho&agrave;n lại tiền m&agrave; kh&ocirc;ng c&oacute; đ&ograve;i hỏi n&agrave;o trong trường hợp n&agrave;y.</p><p>- Ph&iacute; chuyển ph&aacute;t sẽ được ho&agrave;n trả trong trường hợp h&agrave;ng h&oacute;a b&aacute;n ra kh&ocirc;ng đ&uacute;ng, lỗi hoặc hỏng h&oacute;c.</p>'
+    //     }, 
+    //     {
+    //         type: 'shipping',
+    //         content: '<p>1. TP HCM:</p><p>-&nbsp;Quận 1, 2, 3, 4, 5, 6, 7, 8, 10, 11, T&acirc;n B&igrave;nh, T&acirc;n Ph&uacute;, Ph&uacute; Nhuận, B&igrave;nh Thạnh, G&ograve; Vấp: 20.000đ (thanh to&aacute;n khi nhận h&agrave;ng, giao trong 1 ng&agrave;y).</p><p>- Quận 9, 12, Thủ Đức, B&igrave;nh T&acirc;n: 25.000đ (thanh to&aacute;n khi nhận h&agrave;ng, giao trong 1 ng&agrave;y, đ&acirc;y l&agrave; ph&iacute; ship mặc định), 20.000đ (nếu bạn chuyển khoản trước, shop gửi bằng đường bưu điện trong 3-5 ng&agrave;y, vui l&ograve;ng b&aacute;o trước cho shop).</p><p>- Quận H&oacute;c M&ocirc;n, B&igrave;nh Ch&aacute;nh, Nh&agrave; B&egrave;, Huyện Củ Chi, Huyện Cần Giờ: 35.000đ (thanh to&aacute;n khi nhận h&agrave;ng, giao trong 1-2 ng&agrave;y, đ&acirc;y l&agrave; ph&iacute; ship mặc định), 20.000đ&nbsp; (bạn chuyển khoản trước, shop gửi bằng đường bưu điện trong 3-5 ng&agrave;y,vui l&ograve;ng b&aacute;o trước cho shop).</p><p>&nbsp;</p><p>2. C&aacute;c tỉnh th&agrave;nh kh&aacute;c:</p><p>a. Nếu bạn chuyển khoản trước:&nbsp;</p><p>- Khối lượng &lt;0.5kg: 25.000đ.</p><p>- Khối lượng lớn hơn, k&iacute;ch thước lớn:&nbsp;Th&ecirc;m phụ ph&iacute; 5.000đ.</p><p>b. Nếu bạn muốn thanh to&aacute;n khi nhận h&agrave;ng (COD): vui l&ograve;ng cộng th&ecirc;m 15.000đ - 20.000đ ph&iacute; COD.</p><p><strong>(free ship to&agrave;n quốc cho đơn h&agrave;ng tr&ecirc;n 1.200.000đ)</strong></p>'
+    //     }
+    //     ], function (err, policies) {
+    //         if (err) throw err;
 
-            console.log('Models created: \n', policies);
-        });
+    //         console.log('Models created: \n', policies);
+    //     });
 
-    });
+    // });
 
     app.dataSources.mydb.automigrate('Province', function (err) {
         app.models.Province.destroyAll({}, function (err, cb) { });
