@@ -22,5 +22,7 @@
       "limit": "100kb"
     },
     "cors": false
-  }
+  },
+  "PAGESIZE": 12,
+  "NEW_PROD_DAYS_NUM": 50
 }

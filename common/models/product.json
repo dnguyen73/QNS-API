@@ -105,15 +105,21 @@
         "findByCode",
         "findByCategory",
         "findByParentId",
-        "findNewest",
-        "findNewestByDays",
-        "findSale",
+        "findNewestByParentId",
+        "findAllNewest",
+        "findSaleByParentId",
         "findAllSale",
         "findRelation",
         "findByPriceRange",
         "findByPriceRangeInGroup",
         "findByPriceRangeInCategory",
-        "__get__category"
+        "__get__category",
+        "countByCategory",
+        "countByParentId",
+        "countNewestByParentId",
+        "countAllNewest",
+        "countAllSale",
+        "countSaleByParentId"
       ]
     },
     {

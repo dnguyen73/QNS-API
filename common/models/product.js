@@ -34,25 +34,196 @@ module.exports = function (Product) {
         }
     );
 
-    Product.findByCategory = function (categoryId, top, cb) {
-        var response, param;
-        if (top) {
-            param = {
-                limit: top,
-                where: {
-                    categoryId: categoryId
-                },
-                order: 'createdDate DESC'
-            };
-        } else {
-            param = {
-                where: {
-                    categoryId: categoryId
-                },
-                order: 'createdDate DESC'
-            };
+    Product.countByCategory = function (categoryId, cb) {
+        Product.count({
+            categoryId: categoryId
+        }, function (err, count) {
+            if (err) {
+                cb(err);
+            }
+            else {
+                cb(null, count, 200, "success")
+            }
+        });
+    };
+    Product.remoteMethod(
+        'countByCategory', {
+            http: {
+                path: '/countByCategory',
+                verb: 'get'
+            },
+            accepts: [
+                { arg: 'categoryId', type: 'string', required: true, description: "59d284dcd228f70436c2eb51" },
+            ],
+            returns: {
+                arg: 'count',
+                type: 'Number'
+            },
         }
-        
+    );
+
+    Product.countByParentId = function (parentId, cb) {
+        Product.count({
+            parentId: parentId
+        }, function (err, count) {
+            if (err) {
+                cb(err);
+            }
+            else {
+                cb(null, count, 200, "success")
+            }
+        });
+    };
+    Product.remoteMethod(
+        'countByParentId', {
+            http: {
+                path: '/countByParentId',
+                verb: 'get'
+            },
+            accepts: [
+                { arg: 'parentId', type: 'number', required: true, description: "59d284dcd228f70436c2eb51" },
+            ],
+            returns: {
+                arg: 'count',
+                type: 'Number'
+            },
+        }
+    );
+
+    Product.countNewestByParentId = function (parentId, cb) {
+        var days = parseInt(Product.app.get('NEW_PROD_DAYS_NUM'));
+        var SELECT_DAYS = days * 24 * 60 * 60 * 1000;  // Month in milliseconds
+
+        Product.count({
+            parentId: parentId,
+            createdDate: { gt: Date.now() - SELECT_DAYS }
+        }, function (err, count) {
+            if (err) {
+                cb(err);
+            }
+            else {
+                cb(null, count, 200, "success")
+            }
+        });
+    };
+    Product.remoteMethod(
+        'countNewestByParentId', {
+            http: {
+                path: '/countNewestByParentId',
+                verb: 'get'
+            },
+            accepts: [
+                { arg: 'parentId', type: 'number', required: true, description: "59d284dcd228f70436c2eb51" },
+            ],
+            returns: {
+                arg: 'count',
+                type: 'Number'
+            },
+        }
+    );
+
+    Product.countAllNewest = function (cb) {
+        var days = parseInt(Product.app.get('NEW_PROD_DAYS_NUM'));
+        var SELECT_DAYS = days * 24 * 60 * 60 * 1000;  // Month in milliseconds
+
+        Product.count({
+            createdDate: { gt: Date.now() - SELECT_DAYS }
+        }, function (err, count) {
+            if (err) {
+                cb(err);
+            }
+            else {
+                cb(null, count, 200, "success")
+            }
+        });
+    };
+    Product.remoteMethod(
+        'countAllNewest', {
+            http: {
+                path: '/countAllNewest',
+                verb: 'get'
+            },
+            accepts: [
+            ],
+            returns: {
+                arg: 'count',
+                type: 'Number'
+            },
+        }
+    );
+
+    Product.countSaleByParentId = function (parentId, cb) {
+        Product.count({
+            parentId: parentId,
+            isOnSale: true
+        }, function (err, count) {
+            if (err) {
+                cb(err);
+            }
+            else {
+                cb(null, count, 200, "success")
+            }
+        });
+    };
+    Product.remoteMethod(
+        'countSaleByParentId', {
+            http: {
+                path: '/countSaleByParentId',
+                verb: 'get'
+            },
+            accepts: [
+                { arg: 'parentId', type: 'number', required: true, description: "59d284dcd228f70436c2eb51" },
+            ],
+            returns: {
+                arg: 'count',
+                type: 'Number'
+            },
+        }
+    );
+
+    Product.countAllSale = function (cb) {
+        Product.count({
+            isOnSale: true
+        }, function (err, count) {
+            if (err) {
+                cb(err);
+            }
+            else {
+                cb(null, count, 200, "success")
+            }
+        });
+    };
+    Product.remoteMethod(
+        'countAllSale', {
+            http: {
+                path: '/countAllSale',
+                verb: 'get'
+            },
+            accepts: [
+            ],
+            returns: {
+                arg: 'count',
+                type: 'Number'
+            },
+        }
+    );
+
+    Product.findByCategory = function (categoryId, pagenum, cb) {
+        var response, param, skip;
+        var limit = parseInt(Product.app.get('PAGESIZE'));
+
+        //If pagenum is not passed in, set pagenum = 1.
+        if (!pagenum) { pagenum = 1 };
+        skip = (pagenum - 1) * limit;
+        param = {
+            limit: limit,
+            skip: skip,
+            where: {
+                categoryId: categoryId
+            },
+            order: 'createdDate DESC'
+        };
+
         Product.find(param, function (err, result) {
             if (err) {
                 cb(err);
@@ -70,7 +241,7 @@ module.exports = function (Product) {
             },
             accepts: [
                 { arg: 'categoryId', type: 'string', required: true, description: "59d284dcd228f70436c2eb51" },
-                { arg: 'top', type: 'number', required: false, description: "5" }
+                { arg: 'pagenum', type: 'number', required: false, description: "5" }
             ],
             returns: {
                 arg: 'result',
@@ -80,25 +251,22 @@ module.exports = function (Product) {
         }
     );
 
-    Product.findByParentId = function (parentId, top, cb) {
-        var response, param;
-        if (top) {
-            param = {
-                limit: top,
-                where: {
-                    parentId: parentId
-                },
-                order: 'createdDate DESC'
-            };
-        } else {
-            param = {
-                where: {
-                    parentId: parentId
-                },
-                order: 'createdDate DESC'
-            };
-        }
-        
+    Product.findByParentId = function (parentId, pagenum, cb) {
+        var response, param, skip;
+        var limit = parseInt(Product.app.get('PAGESIZE'));
+        //If pagenum is not passed in, set pagenum = 1.
+        if (!pagenum) { pagenum = 1 };
+        skip = (pagenum - 1) * limit;
+
+        param = {
+            limit: limit,
+            skip: skip,
+            where: {
+                parentId: parentId
+            },
+            order: 'createdDate DESC'
+        };
+
         Product.find(param, function (err, result) {
             if (err) {
                 cb(err);
@@ -116,7 +284,7 @@ module.exports = function (Product) {
             },
             accepts: [
                 { arg: 'parentId', type: 'string', required: true, description: "1" },
-                { arg: 'top', type: 'number', required: false, description: "5" }
+                { arg: 'pagenum', type: 'number', required: false, description: "5" }
             ],
             returns: {
                 arg: 'result',
@@ -172,26 +340,25 @@ module.exports = function (Product) {
         }
     );
 
-    Product.findNewest = function (pId, days, top, cb) {
-        var response, param;
+    Product.findNewestByParentId = function (pId, pagenum, cb) {
+        var response, param, skip;
+        var days = parseInt(Product.app.get('NEW_PROD_DAYS_NUM'));
         var SELECT_DAYS = days * 24 * 60 * 60 * 1000;  // Month in milliseconds
-        if (top) {
-            param = {
-                limit: top,
-                where: {
-                    parentId: pId,
-                    createdDate: { gt: Date.now() - SELECT_DAYS }
-                },
-                order: 'createdDate DESC'
-            };
-        } else {
-            param = {
-                where: {
-                    parentId: pId,
-                    createdDate: { gt: Date.now() - SELECT_DAYS }
-                }
-            };
-        }
+
+        var limit = parseInt(Product.app.get('PAGESIZE'));
+        //If pagenum is not passed in, set pagenum = 1.
+        if (!pagenum) { pagenum = 1 };
+        skip = (pagenum - 1) * limit;
+
+        param = {
+            limit: limit,
+            skip: skip,
+            where: {
+                parentId: pId,
+                createdDate: { gt: Date.now() - SELECT_DAYS }
+            },
+            order: 'createdDate DESC'
+        };
 
 
         Product.find(param, function (err, result) {
@@ -204,15 +371,14 @@ module.exports = function (Product) {
         }); // endFunc
     };
     Product.remoteMethod(
-        'findNewest', {
+        'findNewestByParentId', {
             http: {
-                path: '/findNewest',
+                path: '/findNewestByParentId',
                 verb: 'get'
             },
             accepts: [
                 { arg: 'pid', type: 'number', required: true, description: "1" },
-                { arg: 'days', type: 'number', required: true, description: "20" },
-                { arg: 'top', type: 'number', required: false, description: "5" }
+                { arg: 'pagenum', type: 'number', required: false, description: "5" }
             ],
             returns: {
                 arg: 'result',
@@ -222,10 +388,19 @@ module.exports = function (Product) {
         }
     );
 
-    Product.findNewestByDays = function (days, cb) {
-        var response, param;
+    Product.findAllNewest = function (pagenum, cb) {
+        var response, param, skip;
+        var days = parseInt(Product.app.get('NEW_PROD_DAYS_NUM'));
         var SELECT_DAYS = days * 24 * 60 * 60 * 1000;  // Month in milliseconds
+
+        var limit = parseInt(Product.app.get('PAGESIZE'));
+        //If pagenum is not passed in, set pagenum = 1.
+        if (!pagenum) { pagenum = 1 };
+        skip = (pagenum - 1) * limit;
+
         var param = {
+            limit: limit,
+            skip: skip,
             where: {
                 createdDate: { gt: Date.now() - SELECT_DAYS }
             },
@@ -242,13 +417,13 @@ module.exports = function (Product) {
         }); // endFunc
     };
     Product.remoteMethod(
-        'findNewestByDays', {
+        'findAllNewest', {
             http: {
-                path: '/findNewestByDays',
+                path: '/findAllNewest',
                 verb: 'get'
             },
             accepts: [
-                { arg: 'days', type: 'number', required: true, description: "7" },
+                { arg: 'pagenum', type: 'number', required: false, description: "5" }
             ],
             returns: {
                 arg: 'result',
@@ -259,25 +434,22 @@ module.exports = function (Product) {
     );
 
     //Find Sales products by parentid/top
-    Product.findSale = function (pId, top, cb) {
-        var response, param;
-        if (top) {
-            param = {
-                limit: top,
-                where: {
-                    parentId: pId,
-                    isOnSale: true
-                },
-                order: 'createdDate DESC'
-            };
-        } else {
-            param = {
-                where: {
-                    parentId: pId,
-                    isOnSale: true
-                }
-            };
-        }
+    Product.findSaleByParentId = function (pId, pagenum, cb) {
+        var response, param, skip;
+        var limit = parseInt(Product.app.get('PAGESIZE'));
+        //If pagenum is not passed in, set pagenum = 1.
+        if (!pagenum) { pagenum = 1 };
+        skip = (pagenum - 1) * limit;
+
+        param = {
+            limit: limit,
+            skip: skip,
+            where: {
+                parentId: pId,
+                isOnSale: true
+            },
+            order: 'createdDate DESC'
+        };
 
         Product.find(param, function (err, result) {
             if (err) {
@@ -289,14 +461,14 @@ module.exports = function (Product) {
         }); // endFunc
     };
     Product.remoteMethod(
-        'findSale', {
+        'findSaleByParentId', {
             http: {
-                path: '/findSale',
+                path: '/findSaleByParentId',
                 verb: 'get'
             },
             accepts: [
                 { arg: 'pid', type: 'number', required: true, description: "1" },
-                { arg: 'top', type: 'number', required: false, description: "5" }
+                { arg: 'pagenum', type: 'number', required: false, description: "5" }
             ],
             returns: {
                 arg: 'result',
@@ -307,9 +479,16 @@ module.exports = function (Product) {
     );
 
     //Find Sales products by parentid/top
-    Product.findAllSale = function (cb) {
-        var response;
+    Product.findAllSale = function (pagenum, cb) {
+        var response, skip;
+        var limit = parseInt(Product.app.get('PAGESIZE'));
+        //If pagenum is not passed in, set pagenum = 1.
+        if (!pagenum) { pagenum = 1 };
+        skip = (pagenum - 1) * limit;
+
         var param = {
+            limit: limit,
+            skip: skip,
             where: {
                 isOnSale: true
             },
@@ -331,6 +510,7 @@ module.exports = function (Product) {
                 verb: 'get'
             },
             accepts: [
+                { arg: 'pagenum', type: 'number', required: false, description: "5" }
             ],
             returns: {
                 arg: 'result',
