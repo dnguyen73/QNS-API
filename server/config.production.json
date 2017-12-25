@@ -23,6 +23,6 @@
     },
     "cors": false
   },
-  "PAGESIZE": 12,
+  "PAGESIZE": 9,
   "NEW_PROD_DAYS_NUM": 50
 }
