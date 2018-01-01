@@ -294,6 +294,42 @@ module.exports = function (Product) {
         }
     );
 
+    Product.findAllByParentId = function (parentId, cb) {
+        var response, param;
+
+        param = {
+            where: {
+                parentId: parentId
+            },
+            order: 'createdDate DESC'
+        };
+
+        Product.find(param, function (err, result) {
+            if (err) {
+                cb(err);
+            }
+            else {
+                cb(null, result, 200, "success")
+            } // endIf
+        }); // endFunc
+    };
+    Product.remoteMethod(
+        'findAllByParentId', {
+            http: {
+                path: '/findAllByParentId',
+                verb: 'get'
+            },
+            accepts: [
+                { arg: 'parentId', type: 'number', required: true, description: "1" }
+            ],
+            returns: {
+                arg: 'result',
+                type: 'Array',
+                root: true
+            },
+        }
+    );
+
     Product.findRelation = function (productCode, top, cb) {
         Product.findOne({
             where: { productCode: productCode }

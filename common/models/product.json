@@ -129,6 +129,7 @@
       "permission": "ALLOW",
       "property": [
         "create",
+        "findAllByParentId",
         "deleteById",
         "replaceById"
       ]
